@@ -9,18 +9,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.caelum.agenda.ConnectionFactory;
 import br.com.caelum.agenda.modelo.Contato;
 
 public class ContatoDao {
 	private Connection connection;
 
-	public ContatoDao() {
-		try {
-			this.connection = new ConnectionFactory().getConnection();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+	public ContatoDao(Connection connection) {
+//		try {
+//			this.connection = new ConnectionFactory().getConnection();
+//		} catch (SQLException e) {
+//			throw new RuntimeException(e);
+//		}
+		this.connection = connection;
 	}
 
 	public void adiciona(Contato contato) {
@@ -79,6 +79,8 @@ public class ContatoDao {
 			PreparedStatement stmt = this.connection.prepareStatement(sql);
 			stmt.setLong(1, contato.getId());
 			stmt.execute();
+			
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -95,8 +97,40 @@ public class ContatoDao {
 			stmt.setLong(5, contato.getId());
 
 			stmt.execute();
+			
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public Contato get(Long id) {
+		String sql = "select * from contatos where id = ?";
+		try {
+			PreparedStatement stmt = this.connection.prepareStatement(sql);
+			stmt.setLong(1, id);
+			
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			
+			Contato resultado = new Contato();
+			resultado.setId(id);
+			resultado.setNome(rs.getString("nome"));
+			resultado.setEmail(rs.getString("email"));
+			resultado.setEndereco(rs.getString("endereco"));
+			
+			//popula a data de nascimento do contato, fazendo a conversao
+			Calendar data = Calendar.getInstance();
+			data.setTime(rs.getDate("dataNascimento"));
+			resultado.setDataNascimento(data);
+			
+			rs.close();
+			stmt.close();
+			
+			return resultado;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

@@ -18,11 +18,14 @@
 		<!-- Set up Table -->
 		<table border="1">
 			<tr>
+				<th>#</th>
 				<th>ID</th>
 				<th>Nome</th>
 				<th>Email</th>
 				<th>Endereco</th>
 				<th>Data de Nascimento</th>
+				<th></th>
+				<th></th>
 			</tr>
 			
 			<!-- percorre contatos montando as linhas da tabela -->
@@ -30,6 +33,7 @@
 				<tr bgcolor="#${id.count % 2 == 0 ? 'aaee88' : 'ffffff' }" >
 					<!-- Print out Contato's data -->
 					<td>${id.count }</td>
+					<td>${contato.id }</td>
 					<td>${contato.nome }</td>
 					<c:choose>
 						<c:when test="${not empty contato.email }">
@@ -41,6 +45,7 @@
 					</c:choose>
 					<td>${contato.endereco }</td>
 					<td><fmt:formatDate value="${contato.dataNascimento.time }" pattern="dd/MM/yyyy" /></td>
+					<td><a href="mvc?logica=AlteraContatoLogic&id=${contato.id }&new=false">Alterar</a></td>
 					<td><a href="mvc?logica=RemoveContatoLogic&id=${contato.id }">Remover</a></td>
 				</tr>
 			</c:forEach>	
