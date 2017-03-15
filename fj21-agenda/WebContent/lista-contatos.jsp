@@ -15,9 +15,6 @@
 		<!-- Importa Cabecalho da pagina -->
 		<c:import url="cabecalho.jsp" />
 		
-		<!-- Cria o DAO -->
-		<jsp:useBean id="dao" class="br.com.caelum.agenda.dao.ContatoDao" />
-		
 		<!-- Set up Table -->
 		<table border="1">
 			<tr>
@@ -29,7 +26,7 @@
 			</tr>
 			
 			<!-- percorre contatos montando as linhas da tabela -->
-			<c:forEach var="contato" items="${dao.lista }"  varStatus="id">
+			<c:forEach var="contato" items="${contatos }"  varStatus="id">
 				<tr bgcolor="#${id.count % 2 == 0 ? 'aaee88' : 'ffffff' }" >
 					<!-- Print out Contato's data -->
 					<td>${id.count }</td>
@@ -44,6 +41,7 @@
 					</c:choose>
 					<td>${contato.endereco }</td>
 					<td><fmt:formatDate value="${contato.dataNascimento.time }" pattern="dd/MM/yyyy" /></td>
+					<td><a href="mvc?logica=RemoveContatoLogic&id=${contato.id }">Remover</a></td>
 				</tr>
 			</c:forEach>	
 		</table>
