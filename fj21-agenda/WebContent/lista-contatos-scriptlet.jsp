@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 	<%@ page import="java.util.*,
-		br.com.caelum.agenda.dao.*,
+		java.sql.Connection,
+		br.com.caelum.agenda.dao.ContatoDao,
 		br.com.caelum.agenda.modelo.*" 
 	%>
 	<html>
@@ -19,7 +20,8 @@
 				<th>Data de Nascimento</th>
 			</tr>
 			<%
-				ContatoDao dao = new ContatoDao();
+				Connection connection = (Connection) request.getAttribute("conn");
+				ContatoDao dao = new ContatoDao(connection);
 				List<Contato> contatos = dao.getLista();
 				
 				for (Contato contato : contatos ) {
