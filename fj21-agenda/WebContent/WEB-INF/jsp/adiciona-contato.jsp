@@ -16,11 +16,11 @@
 	</head>
 	<body>
 		<!-- Importa cabecalho -->
-		<c:import url="cabecalho.jsp" />
+		<c:import url="/WEB-INF/jsp/cabecalho.jsp" />
 		
-		<h1>Adiciona Contatos</h1>
+		<h1>Adiciona Contato</h1>
 		<hr />
-		<form action="adicionaContato">
+		<form action="mvc?logica=ModificaContatoLogic&new=true" method="POST">
 			Nome: <input type="text" name="nome" /><br />
 			E-mail: <input type="text" name="email" /><br />
 			Endereco: <input type="text" name="endereco" /><br />
@@ -30,6 +30,6 @@
 		</form>
 		
 		<!-- Importa rodape -->
-		<c:import url="rodape.jsp" />
+		<c:import url="/WEB-INF/jsp/rodape.jsp" />
 	</body>
 </html>

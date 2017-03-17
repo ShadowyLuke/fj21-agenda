@@ -20,7 +20,7 @@ public class ListaContatoLogic implements Logica {
 		
 		System.out.println("Carregando lista de Contatos... ");
 		
-		return "lista-contatos.jsp";
+		return "/WEB-INF/jsp/lista-contatos.jsp";
 	}
 
 }

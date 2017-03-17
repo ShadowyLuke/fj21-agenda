@@ -13,7 +13,10 @@
 	</head>
 	<body>
 		<!-- Importa Cabecalho da pagina -->
-		<c:import url="cabecalho.jsp" />
+		<c:import url="/WEB-INF/jsp/cabecalho.jsp" />
+		
+		<!-- Adiciona Contato -->
+		<a href="/WEB-INF/jsp/adiciona-contato.jsp">Adiciona Novo Contato</a> <br />
 		
 		<!-- Set up Table -->
 		<table border="1">
@@ -45,12 +48,12 @@
 					</c:choose>
 					<td>${contato.endereco }</td>
 					<td><fmt:formatDate value="${contato.dataNascimento.time }" pattern="dd/MM/yyyy" /></td>
-					<td><a href="mvc?logica=AlteraContatoLogic&id=${contato.id }&new=false">Alterar</a></td>
+					<td><a href="mvc?logica=ModificaContatoLogic&id=${contato.id }&new=false">Alterar</a></td>
 					<td><a href="mvc?logica=RemoveContatoLogic&id=${contato.id }">Remover</a></td>
 				</tr>
 			</c:forEach>	
 		</table>
 		
-		<c:import url="rodape.jsp" />
+		<c:import url="/WEB-INF/jsp/rodape.jsp" />
 	</body>
 </html>

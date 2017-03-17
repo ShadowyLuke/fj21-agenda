@@ -1,6 +1,10 @@
 package br.com.caelum.mvc.logica;
 
 import java.sql.Connection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,12 +16,13 @@ public class AlteraContatoLogic implements Logica {
 
 	@Override
 	public String executa(HttpServletRequest req, HttpServletResponse res) throws Exception {
+
 		long id = Long.parseLong(req.getParameter("id"));
 		boolean newContato = Boolean.parseBoolean(req.getParameter("new"));
 		
 		Connection connection = (Connection) req.getAttribute("conn");
 		ContatoDao dao = new ContatoDao(connection);
-		
+
 		if(newContato) {
 			Contato contato = new Contato();
 			
@@ -26,8 +31,22 @@ public class AlteraContatoLogic implements Logica {
 			contato.setNome(req.getParameter("nome"));
 			contato.setEmail(req.getParameter("email"));
 			contato.setEndereco(req.getParameter("endereco"));
-			//contato.setDataNascimento(req.getParameter("dataNascimento"));
 			
+			String dataEmTexto = req.getParameter("dataNascimento");
+			Calendar dataNascimento = null;
+			
+			try {
+				Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dataEmTexto);
+				dataNascimento = Calendar.getInstance();
+				dataNascimento.setTime(date);
+			} catch (ParseException e) {
+				res.getWriter().println("Erro na conversao da data");
+				return "error/error.html"; // para a execucao do metodo
+			}
+			
+			contato.setDataNascimento(dataNascimento);
+			
+			System.out.println("criou contato");
 			// Chama o DAO e atualiza o Contato
 			dao.atualiza(contato);
 			
